@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { useState } from "react";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Card from "./components/Card";
+import { animals } from "./animalsList";
+
+// , birds, fishes,insects
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [animalsData, setanimals] = useState(animals);
+  const removeCard = (key) => {
+    const newAnimals = animalsData.filter((animal) => {
+      animal.name !==key;
+    });
+    setanimals(newAnimals);
+    console.log({ key }, " was removed");
+  };
+
+  const addLikes = (key) => {
+    console.log({ key }, "was liked");
+  };
+
+  const removeLikes = (key) => {
+    console.log("Removed like for ", { key });
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header />
+      <main className="container">
+        {animals.map((animal) => (
+          <Card
+            key={animal.name}
+            {...animal}
+            addLikes={() => {
+              addLikes(animal.name);
+            }}
+            removeCard={removeCard.bind(this, animal.name)}
+            removeLikes={() => {
+              removeLikes(animal.name);
+            }}
+          />
+        ))}
+      </main>
+      <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

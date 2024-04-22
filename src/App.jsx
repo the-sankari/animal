@@ -8,13 +8,11 @@ import { animals } from "./animalsList";
 // , birds, fishes,insects
 
 function App() {
-  const [animalsData, setanimals] = useState(animals);
-  const removeCard = (key) => {
-    const newAnimals = animalsData.filter((animal) => {
-      animal.name !==key;
-    });
-    setanimals(newAnimals);
-    console.log({ key }, " was removed");
+  const [animalsData, setAnimalsData] = useState(animals);
+
+  const removeCard = (animal) => {
+    const updatedAnimals = animalsData.filter((item) => item.name !== animal);
+    setAnimalsData(updatedAnimals);
   };
 
   const addLikes = (key) => {
@@ -29,14 +27,16 @@ function App() {
     <>
       <Header />
       <main className="container">
-        {animals.map((animal) => (
+        {animalsData.map((animal) => (
           <Card
             key={animal.name}
             {...animal}
             addLikes={() => {
               addLikes(animal.name);
             }}
-            removeCard={removeCard.bind(this, animal.name)}
+            removeCard={() => {
+              removeCard(animal.name);
+            }}
             removeLikes={() => {
               removeLikes(animal.name);
             }}
